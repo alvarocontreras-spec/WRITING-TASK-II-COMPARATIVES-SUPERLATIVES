@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comparing People - Comparatives & Superlatives</title>
+  <title>Comparatives & Superlatives Practice</title>
   <style>
     :root {
       --bg: #f4f6f9;
       --card-bg: #ffffff;
-      --primary: #2b580c;
-      --primary-hover: #1e3d08;
-      --text: #333333;
-      --success: #28a745;
-      --error: #dc3545;
-      --accent: #f0f7ee;
+      --primary: #6c5ce7;
+      --primary-hover: #5b4bc4;
+      --text: #2d3436;
+      --success: #00b894;
+      --error: #d63031;
+      --accent: #a29bfe;
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,7 +26,7 @@
     }
     .container {
       background: var(--card-bg);
-      max-width: 680px;
+      max-width: 650px;
       width: 100%;
       padding: 30px;
       border-radius: 12px;
@@ -39,49 +39,31 @@
     }
     .subtitle {
       text-align: center;
-      color: #666;
+      color: #636e72;
       font-size: 0.95em;
       margin-bottom: 25px;
     }
-    .profiles {
+    .header-bar {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 25px;
-      background: var(--accent);
-      padding: 15px;
-      border-radius: 8px;
+      align-items: center;
+      margin-bottom: 15px;
     }
-    .profile-card {
-      background: white;
-      padding: 12px;
-      border-radius: 8px;
-      width: 30%;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-      text-align: center;
-    }
-    .profile-card h3 {
-      margin-top: 0;
-      color: var(--primary);
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 5px;
-    }
-    .profile-card p {
-      margin: 6px 0;
-      font-size: 0.88em;
-      text-align: left;
+    .score {
+      font-weight: bold;
+      color: #2d3436;
     }
     .question-box {
-      margin-top: 20px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #eee;
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 10px;
+      border: 2px solid #e9ecef;
+      text-align: center;
     }
     .prompt-text {
-      font-size: 1.1em;
-      font-weight: 500;
-      margin-bottom: 12px;
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-bottom: 15px;
     }
     input[type="text"] {
       width: 100%;
@@ -89,8 +71,9 @@
       box-sizing: border-box;
       border: 2px solid #ccc;
       border-radius: 6px;
-      font-size: 1em;
+      font-size: 1.05em;
       outline: none;
+      text-align: center;
       transition: border-color 0.2s;
     }
     input[type="text"]:focus {
@@ -117,52 +100,19 @@
       font-weight: bold;
       text-align: center;
       min-height: 24px;
-    }
-    .header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    .score {
-      font-weight: bold;
-      color: #555;
+      font-size: 1.05em;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Comparing People</h1>
-  <p class="subtitle">Look at the information below and complete the sentences using <b>comparative</b> or <b>superlative</b> forms.</p>
+  <h1>Comparatives & Superlatives</h1>
+  <p class="subtitle">Complete the sentences based on the visual examples.</p>
 
   <div class="header-bar">
-    <span style="font-size: 0.9em; color: #777;" id="progress">Question 1 of 6</span>
+    <span style="font-size: 0.9em; color: #636e72;" id="progress">Question 1 of 10</span>
     <span class="score">Score: <span id="score">0</span></span>
-  </div>
-
-  <div class="profiles">
-    <div class="profile-card">
-      <h3>Alex</h3>
-      <p><b>Age:</b> 14 years old</p>
-      <p><b>Height:</b> 160 cm</p>
-      <p><b>Weight:</b> 50 kg</p>
-      <p><b>Speed:</b> 12 km/h</p>
-    </div>
-    <div class="profile-card">
-      <h3>Ben</h3>
-      <p><b>Age:</b> 17 years old</p>
-      <p><b>Height:</b> 175 cm</p>
-      <p><b>Weight:</b> 68 kg</p>
-      <p><b>Speed:</b> 18 km/h</p>
-    </div>
-    <div class="profile-card">
-      <h3>Charlie</h3>
-      <p><b>Age:</b> 12 years old</p>
-      <p><b>Height:</b> 150 cm</p>
-      <p><b>Weight:</b> 45 kg</p>
-      <p><b>Speed:</b> 10 km/h</p>
-    </div>
   </div>
 
   <div class="question-box">
@@ -176,12 +126,19 @@
 
 <script>
   const questions = [
-    { prompt: "Ben is ____________ Charlie. (tall)", answer: "taller than" },
-    { prompt: "Ben is ____________ person in the group. (old)", answer: "the oldest" },
-    { prompt: "Charlie is ____________ Alex. (young)", answer: "younger than" },
-    { prompt: "Ben is ____________ runner of all three. (fast)", answer: "the fastest" },
-    { prompt: "Charlie is ____________ person. (short)", answer: "the shortest" },
-    { prompt: "Alex is ____________ Ben. (short)", answer: "shorter than" }
+    // Comparatives
+    { prompt: "A motorbike is ____________ a bicycle. (fast)", answer: "faster than" },
+    { prompt: "Basic math (2 + 3) is ____________ complex algebra. (easy)", answer: "easier than" },
+    { prompt: "Rugby is ____________ table tennis. (dangerous)", answer: "more dangerous than" },
+    { prompt: "The big blue backpack is ____________ the small purple backpack. (heavy)", answer: "heavier than" },
+    { prompt: "The main swimming pool is ____________ the inflatable pool. (big)", answer: "bigger than" },
+    
+    // Superlatives
+    { prompt: "Football is ____________ sport of all three. (exciting)", answer: "the most exciting" },
+    { prompt: "The stone castle is ____________ building in the town. (old)", answer: "the oldest" },
+    { prompt: "The boy with the trophy in the middle is ____________ player. (good)", answer: "the best" },
+    { prompt: "Team C has 0 points, so they are ____________ team. (bad)", answer: "the worst" },
+    { prompt: "Island A is ____________ island from the house. (far)", answer: "the farthest" }
   ];
 
   let currentQ = 0;
@@ -195,7 +152,7 @@
       document.getElementById('feedback').innerText = '';
     } else {
       document.getElementById('progress').innerText = "Completed!";
-      document.getElementById('prompt').innerText = "🎉 Great job! You have completed the task.";
+      document.getElementById('prompt').innerText = "🎉 Excellent work! You completed the quiz.";
       document.getElementById('answer').style.display = 'none';
       document.querySelector('button').style.display = 'none';
       document.getElementById('feedback').innerText = `Final Score: ${score} / ${questions.length}`;
@@ -207,7 +164,11 @@
     const userAnswer = document.getElementById('answer').value.trim().toLowerCase();
     const correctAnswer = questions[currentQ].answer.toLowerCase();
 
-    if (userAnswer === correctAnswer) {
+    // Acepta "the furthest" además de "the farthest" para la última pregunta
+    const isCorrect = (userAnswer === correctAnswer) || 
+                      (questions[currentQ].answer === "the farthest" && userAnswer === "the furthest");
+
+    if (isCorrect) {
       document.getElementById('feedback').innerText = "Correct! 👏";
       document.getElementById('feedback').style.color = "var(--success)";
       score++;
