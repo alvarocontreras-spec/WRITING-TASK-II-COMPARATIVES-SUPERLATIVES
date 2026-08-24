@@ -75,14 +75,6 @@
       color: var(--primary);
       font-size: 1.05em;
     }
-    .target-adj {
-      background: #e1edd8;
-      color: var(--primary);
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 0.85em;
-      font-weight: bold;
-    }
     .prompt-desc {
       font-size: 0.95em;
       margin-bottom: 12px;
@@ -145,7 +137,7 @@
   <h1>Writing Task: Comparatives & Superlatives</h1>
   <p class="subtitle">Look at the poster images, write full sentences in each slot, and check your grammar structure.</p>
 
-  <!-- POSTER IMAGE LINKED RELATIVELY FROM YOUR REPO -->
+  <!-- POSTER IMAGE -->
   <div class="image-container">
     <img src="imagnes.png" alt="Comparatives and Superlatives Poster">
   </div>
@@ -156,18 +148,18 @@
 <script>
   const slotsData = [
     // COMPARATIVES
-    { id: 1, type: "comparative", target: "FASTER", desc: "Compare the motorbike and the bicycle.", reqAdj: ["faster than"] },
-    { id: 2, type: "comparative", target: "EASIER", desc: "Compare simple math (2+3) with complex algebra.", reqAdj: ["easier than"] },
-    { id: 3, type: "comparative", target: "MORE DANGEROUS", desc: "Compare rugby and table tennis.", reqAdj: ["more dangerous than"] },
-    { id: 4, type: "comparative", target: "HEAVIER", desc: "Compare the big blue backpack and the small purple backpack.", reqAdj: ["heavier than"] },
-    { id: 5, type: "comparative", target: "BIGGER", desc: "Compare the main swimming pool and the inflatable pool.", reqAdj: ["bigger than"] },
+    { id: 1, type: "comparative", desc: "Compare the motorbike and the bicycle.", reqAdj: ["faster than"] },
+    { id: 2, type: "comparative", desc: "Compare simple math (2+3) with complex algebra.", reqAdj: ["easier than"] },
+    { id: 3, type: "comparative", desc: "Compare rugby and table tennis.", reqAdj: ["more dangerous than"] },
+    { id: 4, type: "comparative", desc: "Compare the big blue backpack and the small purple backpack.", reqAdj: ["heavier than"] },
+    { id: 5, type: "comparative", desc: "Compare the main swimming pool and the inflatable pool.", reqAdj: ["bigger than"] },
     
     // SUPERLATIVES
-    { id: 6, type: "superlative", target: "THE MOST EXCITING", desc: "Describe football compared to the other sports.", reqAdj: ["the most exciting"] },
-    { id: 7, type: "superlative", target: "THE OLDEST", desc: "Describe the stone castle compared to the other buildings.", reqAdj: ["the oldest"] },
-    { id: 8, type: "superlative", target: "THE BEST", desc: "Describe the player with the gold trophy in the middle.", reqAdj: ["the best"] },
-    { id: 9, type: "superlative", target: "THE WORST", desc: "Describe Team C (0-5) compared to the other teams.", reqAdj: ["the worst"] },
-    { id: 10, type: "superlative", target: "THE FARTHEST", desc: "Describe Island A in relation to the house.", reqAdj: ["the farthest", "the furthest"] }
+    { id: 6, type: "superlative", desc: "Describe football compared to the other sports.", reqAdj: ["the most exciting"] },
+    { id: 7, type: "superlative", desc: "Describe the stone castle compared to the other buildings.", reqAdj: ["the oldest"] },
+    { id: 8, type: "superlative", desc: "Describe the player with the gold trophy in the middle.", reqAdj: ["the best"] },
+    { id: 9, type: "superlative", desc: "Describe Team C (0-5) compared to the other teams.", reqAdj: ["the worst"] },
+    { id: 10, type: "superlative", desc: "Describe Island A in relation to the house.", reqAdj: ["the farthest", "the furthest"] }
   ];
 
   function renderSlots() {
@@ -178,7 +170,6 @@
       card.innerHTML = `
         <div class="slot-header">
           <span class="slot-title">Slot ${slot.id}: ${slot.type.toUpperCase()}</span>
-          <span class="target-adj">Target: ${slot.target}</span>
         </div>
         <p class="prompt-desc">${slot.desc}</p>
         <input type="text" id="input-${slot.id}" placeholder="Type your full sentence here..." autocomplete="off">
@@ -225,9 +216,9 @@
     }
 
     if (hasTargetAdj) {
-      checks.push(`✔️ Correct ${slot.type} structure used.`);
+      checks.push(`✔️ Correct ${slot.type} adjective structure used.`);
     } else {
-      checks.push(`❌ Missing or incorrect target adjective (Expected: "${slot.reqAdj.join('" or "')}").`);
+      checks.push(`❌ Missing or incorrect comparative/superlative form for this picture.`);
     }
 
     if (slot.type === "comparative" && !textLower.includes("than")) {
