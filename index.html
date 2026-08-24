@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Grammar Checker: Comparatives & Superlatives</title>
+  <title>Writing Task: Comparatives & Superlatives</title>
   <style>
     :root {
       --bg: #f4f6f9;
       --card-bg: #ffffff;
-      --primary: #4a6fa5;
-      --primary-hover: #3b5984;
+      --primary: #2d572c;
+      --primary-hover: #1e3d1e;
       --text: #2c3e50;
       --success: #27ae60;
       --error: #e74c3c;
-      --warning: #f39c12;
-      --border: #e0e0e0;
+      --border: #dcdde1;
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -27,7 +26,7 @@
     }
     .container {
       background: var(--card-bg);
-      max-width: 800px;
+      max-width: 850px;
       width: 100%;
       padding: 30px;
       border-radius: 12px;
@@ -42,7 +41,21 @@
       text-align: center;
       color: #7f8c8d;
       font-size: 0.95em;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
+    }
+    .image-container {
+      text-align: center;
+      margin-bottom: 30px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .slot-card {
       background: #fafafa;
@@ -60,15 +73,15 @@
     .slot-title {
       font-weight: bold;
       color: var(--primary);
-      font-size: 1.1em;
+      font-size: 1.05em;
     }
     .target-adj {
-      background: #eef2f7;
-      padding: 4px 8px;
+      background: #e1edd8;
+      color: var(--primary);
+      padding: 4px 10px;
       border-radius: 4px;
       font-size: 0.85em;
-      font-weight: 600;
-      color: #555;
+      font-weight: bold;
     }
     .prompt-desc {
       font-size: 0.95em;
@@ -105,7 +118,7 @@
     }
     .feedback-box {
       margin-top: 12px;
-      padding: 10px;
+      padding: 12px;
       border-radius: 6px;
       font-size: 0.9em;
       display: none;
@@ -129,8 +142,13 @@
 <body>
 
 <div class="container">
-  <h1>Interactive Grammar Lab</h1>
-  <p class="subtitle">Look at the poster images, write full sentences, and verify your grammar components.</p>
+  <h1>Writing Task: Comparatives & Superlatives</h1>
+  <p class="subtitle">Look at the poster images, write full sentences in each slot, and check your grammar structure.</p>
+
+  <!-- POSTER IMAGE LINKED RELATIVELY FROM YOUR REPO -->
+  <div class="image-container">
+    <img src="imagnes.png" alt="Comparatives and Superlatives Poster">
+  </div>
 
   <div id="slots-container"></div>
 </div>
@@ -138,18 +156,18 @@
 <script>
   const slotsData = [
     // COMPARATIVES
-    { id: 1, type: "comparative", target: "FASTER", desc: "Compare the motorbike and the bicycle.", adjType: "short", reqAdj: ["faster than"] },
-    { id: 2, type: "comparative", target: "EASIER", desc: "Compare simple math (2+3) with complex algebra.", adjType: "short", reqAdj: ["easier than"] },
-    { id: 3, type: "comparative", target: "MORE DANGEROUS", desc: "Compare rugby and table tennis.", adjType: "long", reqAdj: ["more dangerous than"] },
-    { id: 4, type: "comparative", target: "HEAVIER", desc: "Compare the big blue backpack and the small purple backpack.", adjType: "short", reqAdj: ["heavier than"] },
-    { id: 5, type: "comparative", target: "BIGGER", desc: "Compare the main swimming pool and the small inflatable pool.", adjType: "short", reqAdj: ["bigger than"] },
+    { id: 1, type: "comparative", target: "FASTER", desc: "Compare the motorbike and the bicycle.", reqAdj: ["faster than"] },
+    { id: 2, type: "comparative", target: "EASIER", desc: "Compare simple math (2+3) with complex algebra.", reqAdj: ["easier than"] },
+    { id: 3, type: "comparative", target: "MORE DANGEROUS", desc: "Compare rugby and table tennis.", reqAdj: ["more dangerous than"] },
+    { id: 4, type: "comparative", target: "HEAVIER", desc: "Compare the big blue backpack and the small purple backpack.", reqAdj: ["heavier than"] },
+    { id: 5, type: "comparative", target: "BIGGER", desc: "Compare the main swimming pool and the inflatable pool.", reqAdj: ["bigger than"] },
     
     // SUPERLATIVES
-    { id: 6, type: "superlative", target: "THE MOST EXCITING", desc: "Describe football compared to the other sports.", adjType: "long", reqAdj: ["the most exciting"] },
-    { id: 7, type: "superlative", target: "THE OLDEST", desc: "Describe the stone castle compared to the other buildings.", adjType: "short", reqAdj: ["the oldest"] },
-    { id: 8, type: "superlative", target: "THE BEST", desc: "Describe the boy holding the gold trophy.", adjType: "irregular", reqAdj: ["the best"] },
-    { id: 9, type: "superlative", target: "THE WORST", desc: "Describe Team C (0-5) compared to the other teams.", adjType: "irregular", reqAdj: ["the worst"] },
-    { id: 10, type: "superlative", target: "THE FARTHEST", desc: "Describe Island A in relation to the house.", adjType: "irregular", reqAdj: ["the farthest", "the furthest"] }
+    { id: 6, type: "superlative", target: "THE MOST EXCITING", desc: "Describe football compared to the other sports.", reqAdj: ["the most exciting"] },
+    { id: 7, type: "superlative", target: "THE OLDEST", desc: "Describe the stone castle compared to the other buildings.", reqAdj: ["the oldest"] },
+    { id: 8, type: "superlative", target: "THE BEST", desc: "Describe the player with the gold trophy in the middle.", reqAdj: ["the best"] },
+    { id: 9, type: "superlative", target: "THE WORST", desc: "Describe Team C (0-5) compared to the other teams.", reqAdj: ["the worst"] },
+    { id: 10, type: "superlative", target: "THE FARTHEST", desc: "Describe Island A in relation to the house.", reqAdj: ["the farthest", "the furthest"] }
   ];
 
   function renderSlots() {
@@ -186,18 +204,18 @@
 
     const textLower = text.toLowerCase();
 
-    // Component Checks
+    // Component Validation
     const hasToBe = /\b(is|are|was|were)\b/.test(textLower);
     const hasTargetAdj = slot.reqAdj.some(adj => textLower.includes(adj));
     
-    let hasStructure = false;
+    let hasConnector = false;
     if (slot.type === "comparative") {
-      hasStructure = textLower.includes("than");
+      hasConnector = textLower.includes("than");
     } else if (slot.type === "superlative") {
-      hasStructure = textLower.includes("the");
+      hasConnector = textLower.includes("the");
     }
 
-    // Build Diagnostic Checklist
+    // Diagnostic Checklist
     let checks = [];
     
     if (hasToBe) {
@@ -207,7 +225,7 @@
     }
 
     if (hasTargetAdj) {
-      checks.push(`✔️ Correct ${slot.type} adjective form used.`);
+      checks.push(`✔️ Correct ${slot.type} structure used.`);
     } else {
       checks.push(`❌ Missing or incorrect target adjective (Expected: "${slot.reqAdj.join('" or "')}").`);
     }
@@ -216,17 +234,17 @@
       checks.push("❌ Missing comparative connector 'than'.");
     }
     if (slot.type === "superlative" && !textLower.includes("the")) {
-      checks.push("❌ Missing article 'the' before superlative adjective.");
+      checks.push("❌ Missing article 'the' before superlative.");
     }
 
-    const isFullyCorrect = hasToBe && hasTargetAdj && hasStructure;
+    const isFullyCorrect = hasToBe && hasTargetAdj && hasConnector;
 
     if (isFullyCorrect) {
       feedbackEl.className = 'feedback-box success';
-      feedbackEl.innerHTML = `<strong>🎉 Excellent! All grammatical components detected:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
+      feedbackEl.innerHTML = `<strong>🎉 Excellent sentence! All components detected:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
     } else {
       feedbackEl.className = 'feedback-box error';
-      feedbackEl.innerHTML = `<strong>⚠️ Grammar incomplete. Check your structure:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
+      feedbackEl.innerHTML = `<strong>⚠️ Check your grammar components:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
     }
   }
 
