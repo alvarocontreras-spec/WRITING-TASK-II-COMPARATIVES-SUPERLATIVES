@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grammar Discovery Lab: Comparatives & Superlatives</title>
+  <title>Interactive Grammar Checker: Comparatives & Superlatives</title>
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #f4f6f9;
       --card-bg: #ffffff;
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --text: #1e293b;
-      --accent-bg: #eff6ff;
-      --border: #cbd5e1;
-      --success: #16a34a;
+      --primary: #4a6fa5;
+      --primary-hover: #3b5984;
+      --text: #2c3e50;
+      --success: #27ae60;
+      --error: #e74c3c;
+      --warning: #f39c12;
+      --border: #e0e0e0;
     }
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       display: flex;
@@ -26,11 +27,11 @@
     }
     .container {
       background: var(--card-bg);
-      max-width: 750px;
+      max-width: 800px;
       width: 100%;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
     h1 {
       text-align: center;
@@ -39,167 +40,197 @@
     }
     .subtitle {
       text-align: center;
-      color: #64748b;
+      color: #7f8c8d;
       font-size: 0.95em;
       margin-bottom: 25px;
     }
-    .step-card {
-      background: #ffffff;
-      border: 2px solid var(--border);
-      border-radius: 10px;
+    .slot-card {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
       padding: 20px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
-    .step-title {
-      font-weight: 700;
+    .slot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .slot-title {
+      font-weight: bold;
       color: var(--primary);
       font-size: 1.1em;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-    .instruction {
+    .target-adj {
+      background: #eef2f7;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: #555;
+    }
+    .prompt-desc {
       font-size: 0.95em;
       margin-bottom: 12px;
-      color: #334155;
+      color: #34495e;
     }
-    textarea, input[type="text"] {
+    input[type="text"] {
       width: 100%;
       padding: 12px;
       box-sizing: border-box;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       border-radius: 6px;
-      font-size: 0.95em;
-      font-family: inherit;
-      margin-bottom: 10px;
+      font-size: 1em;
+      outline: none;
+      transition: border-color 0.2s;
     }
-    textarea:focus, input[type="text"]:focus {
-      outline: 2px solid var(--primary);
-      border-color: transparent;
+    input[type="text"]:focus {
+      border-color: var(--primary);
     }
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    label {
-      font-size: 0.9em;
-      color: #475569;
-      cursor: pointer;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
+    .btn-check {
+      margin-top: 10px;
+      padding: 10px 18px;
       background-color: var(--primary);
       color: white;
       border: none;
       border-radius: 6px;
-      font-size: 1em;
+      font-size: 0.9em;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: bold;
       transition: background-color 0.2s;
     }
-    button:hover {
+    .btn-check:hover {
       background-color: var(--primary-hover);
     }
-    .discovery-box {
-      background: var(--accent-bg);
-      border-left: 4px solid var(--primary);
-      padding: 15px;
-      border-radius: 0 6px 6px 0;
-      margin-top: 15px;
+    .feedback-box {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.9em;
       display: none;
     }
-    .discovery-box h4 {
-      margin: 0 0 5px 0;
-      color: var(--primary);
+    .feedback-box.success {
+      background-color: #e8f8f0;
+      color: var(--success);
+      border: 1px solid #abebc6;
+    }
+    .feedback-box.error {
+      background-color: #fadbd8;
+      color: var(--error);
+      border: 1px solid #f5b7b1;
+    }
+    .checklist {
+      margin: 5px 0 0 0;
+      padding-left: 20px;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Grammar Discovery Lab</h1>
-  <p class="subtitle">Explore the poster, analyze how sentences are built, and create your own rules!</p>
+  <h1>Interactive Grammar Lab</h1>
+  <p class="subtitle">Look at the poster images, write full sentences, and verify your grammar components.</p>
 
-  <!-- STAGE 1: OBSERVATION & DEDUCTION -->
-  <div class="step-card">
-    <div class="step-title">Stage 1: Discover the Patterns</div>
-    
-    <p class="instruction"><b>1. Look at the top row (Comparatives).</b> What short word usually appears after short adjectives like <i>fast<b>er</b></i>, <i>easi<b>er</b></i>, or <i>big<b>ger</b></i> when comparing two things?</p>
-    <input type="text" id="q1" placeholder="Type the key word here (e.g., than, of, to)...">
-
-    <p class="instruction"><b>2. Look at the bottom row (Superlatives).</b> What word always goes BEFORE words like <i><b>______</b> oldest</i>, <i><b>______</b> best</i>, or <i><b>______</b> most exciting</i>?</p>
-    <input type="text" id="q2" placeholder="Type the key word here...">
-
-    <button onclick="revealStage1()">Verify My Hypotheses</button>
-
-    <div class="discovery-box" id="discovery1">
-      <h4>💡 Rule Discovered!</h4>
-      <ul>
-        <li><b>Comparatives</b> compare 2 items and use <b>THAN</b> after the adjective (e.g., <i>faster than</i>).</li>
-        <li><b>Superlatives</b> compare 1 item against a whole group and use <b>THE</b> before the adjective (e.g., <i>the oldest</i>).</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- STAGE 2: CONCEPT ANALYSIS -->
-  <div class="step-card">
-    <div class="step-title">Stage 2: Why do some words change differently?</div>
-    <p class="instruction">Compare <b>"MORE DANGEROUS"</b> vs. <b>"FASTER"</b> in the poster. Why doesn't "dangerous" become "dangerouser"?</p>
-    
-    <textarea id="q3" rows="3" placeholder="Write your explanation in your own words..."></textarea>
-
-    <button onclick="revealStage2()">Check My Reasoning</button>
-
-    <div class="discovery-box" id="discovery2">
-      <h4>💡 Syllable Rule!</h4>
-      <p>Short 1-syllable adjectives (like <i>fast</i>) get <b>-er / -est</b>. Long adjectives with 3+ syllables (like <i>dan-ger-ous</i>) use <b>more / the most</b> instead of changing their ending!</p>
-    </div>
-  </div>
-
-  <!-- STAGE 3: CREATIVE APPLICATION -->
-  <div class="step-card">
-    <div class="step-title">Stage 3: Produce Your Own Examples</div>
-    <p class="instruction">Choose ANY 2 elements from the poster and write 2 original sentences applying your discovered rules:</p>
-    
-    <p class="instruction"><b>Sentence 1 (Comparative):</b></p>
-    <textarea id="create1" rows="2" placeholder="Example: The main pool is bigger than the small pool."></textarea>
-
-    <p class="instruction"><b>Sentence 2 (Superlative):</b></p>
-    <textarea id="create2" rows="2" placeholder="Example: Team A was the best team in the tournament."></textarea>
-
-    <button onclick="submitCreation()">Submit & Reflect</button>
-
-    <div class="discovery-box" id="discovery3" style="text-align: center;">
-      <h4 style="color: var(--success);">🎉 Excellent Constructivist Practice!</h4>
-      <p>You have successfully deduced the rules, analyzed word structures, and generated original language.</p>
-    </div>
-  </div>
-
+  <div id="slots-container"></div>
 </div>
 
 <script>
-  function revealStage1() {
-    document.getElementById('discovery1').style.display = 'block';
+  const slotsData = [
+    // COMPARATIVES
+    { id: 1, type: "comparative", target: "FASTER", desc: "Compare the motorbike and the bicycle.", adjType: "short", reqAdj: ["faster than"] },
+    { id: 2, type: "comparative", target: "EASIER", desc: "Compare simple math (2+3) with complex algebra.", adjType: "short", reqAdj: ["easier than"] },
+    { id: 3, type: "comparative", target: "MORE DANGEROUS", desc: "Compare rugby and table tennis.", adjType: "long", reqAdj: ["more dangerous than"] },
+    { id: 4, type: "comparative", target: "HEAVIER", desc: "Compare the big blue backpack and the small purple backpack.", adjType: "short", reqAdj: ["heavier than"] },
+    { id: 5, type: "comparative", target: "BIGGER", desc: "Compare the main swimming pool and the small inflatable pool.", adjType: "short", reqAdj: ["bigger than"] },
+    
+    // SUPERLATIVES
+    { id: 6, type: "superlative", target: "THE MOST EXCITING", desc: "Describe football compared to the other sports.", adjType: "long", reqAdj: ["the most exciting"] },
+    { id: 7, type: "superlative", target: "THE OLDEST", desc: "Describe the stone castle compared to the other buildings.", adjType: "short", reqAdj: ["the oldest"] },
+    { id: 8, type: "superlative", target: "THE BEST", desc: "Describe the boy holding the gold trophy.", adjType: "irregular", reqAdj: ["the best"] },
+    { id: 9, type: "superlative", target: "THE WORST", desc: "Describe Team C (0-5) compared to the other teams.", adjType: "irregular", reqAdj: ["the worst"] },
+    { id: 10, type: "superlative", target: "THE FARTHEST", desc: "Describe Island A in relation to the house.", adjType: "irregular", reqAdj: ["the farthest", "the furthest"] }
+  ];
+
+  function renderSlots() {
+    const container = document.getElementById('slots-container');
+    slotsData.forEach(slot => {
+      const card = document.createElement('div');
+      card.className = 'slot-card';
+      card.innerHTML = `
+        <div class="slot-header">
+          <span class="slot-title">Slot ${slot.id}: ${slot.type.toUpperCase()}</span>
+          <span class="target-adj">Target: ${slot.target}</span>
+        </div>
+        <p class="prompt-desc">${slot.desc}</p>
+        <input type="text" id="input-${slot.id}" placeholder="Type your full sentence here..." autocomplete="off">
+        <button class="btn-check" onclick="checkGrammar(${slot.id})">Check Grammar</button>
+        <div class="feedback-box" id="feedback-${slot.id}"></div>
+      `;
+      container.appendChild(card);
+    });
   }
 
-  function revealStage2() {
-    document.getElementById('discovery2').style.display = 'block';
-  }
+  function checkGrammar(id) {
+    const slot = slotsData.find(s => s.id === id);
+    const text = document.getElementById(`input-${id}`).value.trim();
+    const feedbackEl = document.getElementById(`feedback-${id}`);
+    
+    feedbackEl.style.display = 'block';
+    
+    if (!text) {
+      feedbackEl.className = 'feedback-box error';
+      feedbackEl.innerHTML = '⚠️ Please write a sentence before checking.';
+      return;
+    }
 
-  function submitCreation() {
-    const c1 = document.getElementById('create1').value.trim();
-    const c2 = document.getElementById('create2').value.trim();
+    const textLower = text.toLowerCase();
 
-    if (c1 === "" || c2 === "") {
-      alert("Please write both sentences before submitting!");
+    // Component Checks
+    const hasToBe = /\b(is|are|was|were)\b/.test(textLower);
+    const hasTargetAdj = slot.reqAdj.some(adj => textLower.includes(adj));
+    
+    let hasStructure = false;
+    if (slot.type === "comparative") {
+      hasStructure = textLower.includes("than");
+    } else if (slot.type === "superlative") {
+      hasStructure = textLower.includes("the");
+    }
+
+    // Build Diagnostic Checklist
+    let checks = [];
+    
+    if (hasToBe) {
+      checks.push("✔️ Verb 'to be' (is/are) detected.");
     } else {
-      document.getElementById('discovery3').style.display = 'block';
+      checks.push("❌ Missing Verb 'to be' (use 'is' or 'are').");
+    }
+
+    if (hasTargetAdj) {
+      checks.push(`✔️ Correct ${slot.type} adjective form used.`);
+    } else {
+      checks.push(`❌ Missing or incorrect target adjective (Expected: "${slot.reqAdj.join('" or "')}").`);
+    }
+
+    if (slot.type === "comparative" && !textLower.includes("than")) {
+      checks.push("❌ Missing comparative connector 'than'.");
+    }
+    if (slot.type === "superlative" && !textLower.includes("the")) {
+      checks.push("❌ Missing article 'the' before superlative adjective.");
+    }
+
+    const isFullyCorrect = hasToBe && hasTargetAdj && hasStructure;
+
+    if (isFullyCorrect) {
+      feedbackEl.className = 'feedback-box success';
+      feedbackEl.innerHTML = `<strong>🎉 Excellent! All grammatical components detected:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
+    } else {
+      feedbackEl.className = 'feedback-box error';
+      feedbackEl.innerHTML = `<strong>⚠️ Grammar incomplete. Check your structure:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
     }
   }
+
+  renderSlots();
 </script>
 
 </body>
