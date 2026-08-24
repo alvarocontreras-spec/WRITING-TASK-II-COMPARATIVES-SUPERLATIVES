@@ -191,7 +191,7 @@
 <body>
 
 <div class="container">
-  <h1>Writing Task: Comparatives & Superlatives</h1>
+  <h1>Writing Task II : Comparatives & Superlatives</h1>
   <p class="subtitle">Select your course and name, write full sentences in each slot, and check your grammar structure.</p>
 
   <!-- STUDENT SELECTION FORM -->
@@ -373,7 +373,7 @@
     }
 
     let content = `==========================================\n`;
-    content += `WRITING TASK: COMPARATIVES & SUPERLATIVES\n`;
+    content += `WRITING TASK II : COMPARATIVES & SUPERLATIVES\n`;
     content += `==========================================\n`;
     content += `Student: ${student}\n`;
     content += `Course:  ${course}\n`;
@@ -400,7 +400,7 @@
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `${course}_${student.replace(/\s+/g, '_')}_WritingTask.txt`;
+    link.download = `${course}_${student.replace(/\s+/g, '_')}_WritingTaskII.txt`;
     link.click();
   }
 
