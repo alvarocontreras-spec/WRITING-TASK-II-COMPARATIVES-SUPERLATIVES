@@ -43,6 +43,47 @@
       font-size: 0.95em;
       margin-bottom: 20px;
     }
+    .user-info-card {
+      background: #eef2f7;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 25px;
+    }
+    .user-info-card h3 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.1em;
+      margin-bottom: 12px;
+    }
+    .form-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .form-control {
+      flex: 1;
+      min-width: 200px;
+    }
+    .form-control label {
+      display: block;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #34495e;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95em;
+      background: white;
+      outline: none;
+    }
+    select:focus {
+      border-color: var(--primary);
+    }
     .image-container {
       text-align: center;
       margin-bottom: 30px;
@@ -93,7 +134,7 @@
     input[type="text"]:focus {
       border-color: var(--primary);
     }
-    .btn-check {
+    .btn-check, .btn-download {
       margin-top: 10px;
       padding: 10px 18px;
       background-color: var(--primary);
@@ -105,7 +146,7 @@
       font-weight: bold;
       transition: background-color 0.2s;
     }
-    .btn-check:hover {
+    .btn-check:hover, .btn-download:hover {
       background-color: var(--primary-hover);
     }
     .feedback-box {
@@ -129,23 +170,75 @@
       margin: 5px 0 0 0;
       padding-left: 20px;
     }
+    .download-section {
+      background: #eef2f7;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 30px;
+      border: 1px solid var(--border);
+    }
+    .btn-download {
+      font-size: 1.1em;
+      padding: 14px 25px;
+      background-color: #27ae60;
+    }
+    .btn-download:hover {
+      background-color: #219150;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
   <h1>Writing Task: Comparatives & Superlatives</h1>
-  <p class="subtitle">Look at the poster images, write full sentences in each slot, and check your grammar structure.</p>
+  <p class="subtitle">Select your course and name, write full sentences in each slot, and check your grammar structure.</p>
 
-  <!-- IMAGEN CON EL NOMBRE CORRECTO SEGÚN EL REPOSITORIO -->
+  <!-- STUDENT SELECTION FORM -->
+  <div class="user-info-card">
+    <h3>Student Information</h3>
+    <div class="form-group">
+      <div class="form-control">
+        <label for="course-select">Select Course:</label>
+        <select id="course-select" onchange="updateStudentList()">
+          <option value="">-- Choose Course --</option>
+          <option value="5thA">5th Grade A</option>
+          <option value="5thB">5th Grade B</option>
+          <option value="5thC">5th Grade C</option>
+        </select>
+      </div>
+      <div class="form-control">
+        <label for="student-select">Select Your Name:</label>
+        <select id="student-select" disabled>
+          <option value="">-- Select Course First --</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTER IMAGE -->
   <div class="image-container">
     <img src="imagen.png" alt="Comparatives and Superlatives Poster">
   </div>
 
+  <!-- SLOTS -->
   <div id="slots-container"></div>
+
+  <!-- DOWNLOAD SECTION -->
+  <div class="download-section">
+    <h3>Finished your task?</h3>
+    <p style="font-size: 0.9em; color: #555; margin-bottom: 15px;">Download your text file and upload it directly to Google Classroom.</p>
+    <button class="btn-download" onclick="downloadTXT()">📥 Download My Work (.txt)</button>
+  </div>
 </div>
 
 <script>
+  const students = {
+    "5thA": ["ARANEDA SEPÚLVEDA MATÍAS SANTIAGO", "AYALA OLIVARES MÁXIMO ALONSO", "CAMPUSANO PÉREZ ISIDORA MONTSERRAT", "CANESSA VEGA BERNARDO FRANCISCO", "CARRASCO RAMÍREZ JAVIERA PAZ", "CHAMORRO SAN MARTÍN SEBASTIÁN FRANCISCO", "CORREA LEAL SANTIAGO LEÓN", "CUKIC LUENGO BRUNO EDUARDO", "ESPINOZA OLIVARES LUCAS ALEJANDRO", "FERNÁNDEZ ESCOBAR MARTÍN FELIPE", "FERNÁNDEZ RODRIGUEZ FERNANDA NICOLE", "GARNIER VELÁSQUEZ MAXIMILIANO LORENZO", "GARZON MACUER AMANDA SOFÍA", "GONZÁLEZ ARRIAGADA SOFÍA ISIDORA", "IBARRA BARRAZA DOMINGA PAZ", "JARAMILLO CANALES JULIETA ANTONIA", "JIMÉNEZ MONSALVES FERNANDA PAZ", "MACUADA GONZÁLEZ TOMÁS ALONSO", "MEZA MISTO FRANCISCA IGNACIA", "MUÑOZ OLIVOS SOFÍA ANTONIA", "NECULQUEO MURA JAVIER MATIAS", "OSORIO MUÑOZ LUCIANO", "PARRA ALIAGA AGUSTÍN CLEMENTE LEÓN", "RIQUELME CONTRERAS JULIETA ISADORA", "SALINAS SAAVEDRA EMILIANO IGNACIO", "SÁNCHEZ MORAGA NICOLÁS ARTURO", "SEISDEDOS CARVAJAL ANGELA GUADALUPE", "SEREY VALDES RENATO CLEMENTE", "SEYMOUR REYES TRINIDAD EMILIA", "VALLEJOS NAVARRO JOSEFA AGUSTINA", "VELOSO MUÑOZ ISABELLA AMARAL", "VERGARA FUENZALIDA JOAQUÍN IGNACIO", "VERGARA MARÍN DAMIÁN ALONSO", "VINES ZÚÑIGA DAMIÁN ALBERTO", "ZURITA BUSTOS ANTONIA INÉS"],
+    "5thB": ["ACUÑA ALARCÓN DOMINGO", "AGUILAR MENARES VALENTÍN IGNACIO", "ALLENDE GARAY ALFONSO ERNESTO", "ARA CAMPUSANO VALENTINA ANTONIA", "ARAYA ESCALONA JOSE MANUEL", "ÁVILA RAMÍREZ AMANDA", "BOBADILLA PONCE VICENTE IGNACIO", "CASTILLO CARVAJAL TRINIDAD PAZ", "CONTRERAS RAMOS AMANDA BELÉN", "DÍAZ CORTÉS NICOLÁS IGNACIO", "DURÁN FREZ FLORENCIA CATALINA", "FARÍAS VALENZUELA REBECCA ESPERANZA", "GARRIDO DONOSO AMANDA", "GÓMEZ BURGOS ROSARIO BELÉN", "GONZÁLEZ ESPINOZA ARANTZA MICAELA", "HOLZMANN CÁRCAMO ANTONIA IGNACIA", "LAZO DÍAZ RENATA ANDREA", "LÓPEZ OJEDA AGUSTÍN SANTIAGO", "MENESES MADARIAGA GASPAR BAUTISTA", "MORAGA MARTINEZ VICTORIA ESPERANZA", "MOSQUEIRA VALDIVIA CAMILO ANDRÉS", "ORMEÑO LACHR PEDRO JOAQUIN", "OSORNO ARRIAGADA AMANDA MARIANNE", "PARRA PIMENTEL CONSUELO EMILIA", "REYES MARCHANT EMILIANO BAUTISTA", "RIVERA SAAVEDRA DIEGO ANDRÉS", "ROMÁN PEÑA GUSTAVO EMILIO", "RUIZ GARCÍA SANTIAGO ALONSO", "RUZ REYES MATÍAS ALEJANDRO", "SARRIA ASTUDILLO EVA MAGDALENA", "TRUJILLO BURGOS SANTIAGO ALONSO", "URQUEJO CHACANO RAFAELA", "VALENZUELA GONZÁLEZ JOSÉ MIGUEL", "VÁSQUEZ TAPIA SOFÍA ANTONIA", "VILLANUEVA SIMON GASPAR ALBERTO", "ZAMORA TORRES FACUNDO AGUSTÍN"],
+    "5thC": ["ABURTO FUENTEALBA IGNACIO ANDRÉS", "ÁGUILA MOSCOSO LÍA ISABELLA", "ALBORNOZ IBARRA LAURA ALEJANDRA", "ALEGRÍA RAMÍREZ JAVIERA IGNACIA", "APIOLAZA SCACCHI DIEGO ALEJANDRO", "BRANTE CATAFAU RAFAEL BAUTISTA", "BRUNAUD GALLARDO MARIA FERNANDA", "CADIU MELLA MAXIMILIANO IGNACIO", "CANTO MORAGA FELIPE", "CASTILLO MORALES VICENTE SALVADOR", "CASTRO CEPEDA RENATO", "CAVIERES PASMIÑO ROSARIO ISABEL", "CEPEDA PEDREROS CAMILO IGNACIO", "CONTRERAS CÁRDENAS JOSEFA IGNACIA", "CERDA OSSES RAFAEL ORLANDO", "CORTÉS JARA EMMA VALENTINA", "FECCI DUARTE GASPAR OLIVER", "FERNÁNDEZ SALINAS RAFAELA ANHAIS", "GARCÍA ANDRADE MAITE CELESTE", "GONZÁLEZ HERNÁNDEZ AGUSTINA PAZ", "GONZÁLEZ YÁÑEZ LUCIANO ALONSO", "HENRÍQUEZ LÓPEZ ANTONIO MIGUEL", "MORALES MORIS BERNARDO LEON", "MUÑOZ LEÓN MATILDE IGNACIA", "PAVEZ KNUST PEDRO ENRIQUE", "PIZARRO PAREDES ALONSO GABRIEL", "QUINTEROS MONDIGLIO LEONOR IGNACIA", "QUIROZ PÉREZ RAMIRO AGUSTÍN", "REYES BICHARA FRANCO FARID", "REYES CAÑAS JOAQUÍN ALEJANDRO", "RIQUELME ZÚÑIGA ISIDORA PAZ", "SALAZAR BELMAR AGUSTÍN ALONSO", "SANTOS ALVAREZ MIA SOPHIA", "TOBAR GONZÁLEZ FLORENCIA AYLIN", "VALENZUELA GONZÁLEZ GABRIEL IGNACIO", "VALLE FUENTES ELISA"]
+  };
+
   const slotsData = [
     // COMPARATIVES
     { id: 1, type: "comparative", desc: "Compare the motorbike and the bicycle.", reqAdj: ["faster than", "more expensive than", "bigger than"] },
@@ -161,6 +254,36 @@
     { id: 9, type: "superlative", desc: "Describe Team C (0-5) compared to the other teams.", reqAdj: ["the worst", "the saddest"] },
     { id: 10, type: "superlative", desc: "Describe Island A in relation to the house.", reqAdj: ["the farthest", "the furthest", "the smallest"] }
   ];
+
+  function updateStudentList() {
+    const courseSelect = document.getElementById('course-select');
+    const studentSelect = document.getElementById('student-select');
+    const selectedCourse = courseSelect.value;
+
+    studentSelect.innerHTML = '';
+
+    if (selectedCourse && students[selectedCourse]) {
+      studentSelect.disabled = false;
+      
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.innerText = '-- Select Your Name --';
+      studentSelect.appendChild(defaultOption);
+
+      students[selectedCourse].forEach(student => {
+        const option = document.createElement('option');
+        option.value = student;
+        option.innerText = student;
+        studentSelect.appendChild(option);
+      });
+    } else {
+      studentSelect.disabled = true;
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.innerText = '-- Select Course First --';
+      studentSelect.appendChild(defaultOption);
+    }
+  }
 
   function renderSlots() {
     const container = document.getElementById('slots-container');
@@ -190,12 +313,12 @@
     if (!text) {
       feedbackEl.className = 'feedback-box error';
       feedbackEl.innerHTML = '⚠️ Please write a sentence before checking.';
-      return;
+      return false;
     }
 
     const textLower = text.toLowerCase();
 
-    // Validaciones léxicas y gramaticales
+    // Validations
     const hasToBe = /\b(is|are|was|were)\b/.test(textLower);
     const hasTargetAdj = slot.reqAdj.some(adj => textLower.includes(adj));
     
@@ -206,7 +329,6 @@
       hasStructure = textLower.includes("the");
     }
 
-    // Diagnóstico descriptivo
     let checks = [];
     
     if (hasToBe) {
@@ -218,7 +340,7 @@
     if (hasTargetAdj) {
       checks.push(`✔️ Correct ${slot.type} adjective form used.`);
     } else {
-      checks.push(`❌ Missing or incorrect ${slot.type} adjective (e.g. check spelling or form).`);
+      checks.push(`❌ Missing or incorrect ${slot.type} adjective.`);
     }
 
     if (slot.type === "comparative" && !textLower.includes("than")) {
@@ -237,6 +359,49 @@
       feedbackEl.className = 'feedback-box error';
       feedbackEl.innerHTML = `<strong>⚠️ Grammar incomplete. Check your structure:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
     }
+
+    return isFullyCorrect;
+  }
+
+  function downloadTXT() {
+    const course = document.getElementById('course-select').value;
+    const student = document.getElementById('student-select').value;
+
+    if (!course || !student) {
+      alert("⚠️ Please select your Course and Name at the top before downloading!");
+      return;
+    }
+
+    let content = `==========================================\n`;
+    content += `WRITING TASK: COMPARATIVES & SUPERLATIVES\n`;
+    content += `==========================================\n`;
+    content += `Student: ${student}\n`;
+    content += `Course:  ${course}\n`;
+    content += `Date:    ${new Date().toLocaleDateString()}\n`;
+    content += `==========================================\n\n`;
+
+    let allCompleted = true;
+
+    slotsData.forEach(slot => {
+      const sentence = document.getElementById(`input-${slot.id}`).value.trim();
+      if (!sentence) allCompleted = false;
+
+      content += `SLOT ${slot.id} (${slot.type.toUpperCase()}):\n`;
+      content += `Prompt: ${slot.desc}\n`;
+      content += `Sentence: ${sentence || "[NOT ANSWERED]"}\n\n`;
+    });
+
+    if (!allCompleted) {
+      if (!confirm("You have some unanswered slots. Do you still want to download your file?")) {
+        return;
+      }
+    }
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${course}_${student.replace(/\s+/g, '_')}_WritingTask.txt`;
+    link.click();
   }
 
   renderSlots();
