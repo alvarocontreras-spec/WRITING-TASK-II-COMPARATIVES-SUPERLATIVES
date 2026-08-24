@@ -137,9 +137,9 @@
   <h1>Writing Task: Comparatives & Superlatives</h1>
   <p class="subtitle">Look at the poster images, write full sentences in each slot, and check your grammar structure.</p>
 
-  <!-- POSTER IMAGE -->
+  <!-- IMAGEN CON EL NOMBRE CORRECTO SEGÚN EL REPOSITORIO -->
   <div class="image-container">
-    <img src="imagnes.png" alt="Comparatives and Superlatives Poster">
+    <img src="imagen.png" alt="Comparatives and Superlatives Poster">
   </div>
 
   <div id="slots-container"></div>
@@ -148,18 +148,18 @@
 <script>
   const slotsData = [
     // COMPARATIVES
-    { id: 1, type: "comparative", desc: "Compare the motorbike and the bicycle.", reqAdj: ["faster than"] },
-    { id: 2, type: "comparative", desc: "Compare simple math (2+3) with complex algebra.", reqAdj: ["easier than"] },
-    { id: 3, type: "comparative", desc: "Compare rugby and table tennis.", reqAdj: ["more dangerous than"] },
-    { id: 4, type: "comparative", desc: "Compare the big blue backpack and the small purple backpack.", reqAdj: ["heavier than"] },
-    { id: 5, type: "comparative", desc: "Compare the main swimming pool and the inflatable pool.", reqAdj: ["bigger than"] },
+    { id: 1, type: "comparative", desc: "Compare the motorbike and the bicycle.", reqAdj: ["faster than", "more expensive than", "bigger than"] },
+    { id: 2, type: "comparative", desc: "Compare simple math (2+3) with complex algebra.", reqAdj: ["easier than", "simpler than"] },
+    { id: 3, type: "comparative", desc: "Compare rugby and table tennis.", reqAdj: ["more dangerous than", "harder than", "more difficult than"] },
+    { id: 4, type: "comparative", desc: "Compare the big blue backpack and the small purple backpack.", reqAdj: ["heavier than", "bigger than", "larger than"] },
+    { id: 5, type: "comparative", desc: "Compare the main swimming pool and the inflatable pool.", reqAdj: ["bigger than", "deeper than", "larger than"] },
     
     // SUPERLATIVES
-    { id: 6, type: "superlative", desc: "Describe football compared to the other sports.", reqAdj: ["the most exciting"] },
-    { id: 7, type: "superlative", desc: "Describe the stone castle compared to the other buildings.", reqAdj: ["the oldest"] },
-    { id: 8, type: "superlative", desc: "Describe the player with the gold trophy in the middle.", reqAdj: ["the best"] },
-    { id: 9, type: "superlative", desc: "Describe Team C (0-5) compared to the other teams.", reqAdj: ["the worst"] },
-    { id: 10, type: "superlative", desc: "Describe Island A in relation to the house.", reqAdj: ["the farthest", "the furthest"] }
+    { id: 6, type: "superlative", desc: "Describe football compared to the other sports.", reqAdj: ["the most exciting", "the most popular", "the best"] },
+    { id: 7, type: "superlative", desc: "Describe the stone castle compared to the other buildings.", reqAdj: ["the oldest", "the tallest", "the most ancient"] },
+    { id: 8, type: "superlative", desc: "Describe the player with the gold trophy in the middle.", reqAdj: ["the best", "the happiest", "the winner"] },
+    { id: 9, type: "superlative", desc: "Describe Team C (0-5) compared to the other teams.", reqAdj: ["the worst", "the saddest"] },
+    { id: 10, type: "superlative", desc: "Describe Island A in relation to the house.", reqAdj: ["the farthest", "the furthest", "the smallest"] }
   ];
 
   function renderSlots() {
@@ -195,18 +195,18 @@
 
     const textLower = text.toLowerCase();
 
-    // Component Validation
+    // Validaciones léxicas y gramaticales
     const hasToBe = /\b(is|are|was|were)\b/.test(textLower);
     const hasTargetAdj = slot.reqAdj.some(adj => textLower.includes(adj));
     
-    let hasConnector = false;
+    let hasStructure = false;
     if (slot.type === "comparative") {
-      hasConnector = textLower.includes("than");
+      hasStructure = textLower.includes("than");
     } else if (slot.type === "superlative") {
-      hasConnector = textLower.includes("the");
+      hasStructure = textLower.includes("the");
     }
 
-    // Diagnostic Checklist
+    // Diagnóstico descriptivo
     let checks = [];
     
     if (hasToBe) {
@@ -216,9 +216,9 @@
     }
 
     if (hasTargetAdj) {
-      checks.push(`✔️ Correct ${slot.type} adjective structure used.`);
+      checks.push(`✔️ Correct ${slot.type} adjective form used.`);
     } else {
-      checks.push(`❌ Missing or incorrect comparative/superlative form for this picture.`);
+      checks.push(`❌ Missing or incorrect ${slot.type} adjective (e.g. check spelling or form).`);
     }
 
     if (slot.type === "comparative" && !textLower.includes("than")) {
@@ -228,14 +228,14 @@
       checks.push("❌ Missing article 'the' before superlative.");
     }
 
-    const isFullyCorrect = hasToBe && hasTargetAdj && hasConnector;
+    const isFullyCorrect = hasToBe && hasTargetAdj && hasStructure;
 
     if (isFullyCorrect) {
       feedbackEl.className = 'feedback-box success';
       feedbackEl.innerHTML = `<strong>🎉 Excellent sentence! All components detected:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
     } else {
       feedbackEl.className = 'feedback-box error';
-      feedbackEl.innerHTML = `<strong>⚠️ Check your grammar components:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
+      feedbackEl.innerHTML = `<strong>⚠️ Grammar incomplete. Check your structure:</strong><ul class="checklist">${checks.map(c => `<li>${c}</li>`).join('')}</ul>`;
     }
   }
 
